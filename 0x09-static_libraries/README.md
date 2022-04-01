@@ -1,2 +1,1 @@
-# *C Static Libraries*
-* libraries
+
