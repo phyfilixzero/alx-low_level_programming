@@ -1,20 +1,22 @@
+#include "holberton.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
- * free_grid - alloc_grid
- * @grid: pointer to 2D arrays
- * @height: array
- * Return: void
+ * free_grid - ...
+ * @grid: ...
+ * @height: ...
+ *
+ * Return: ...
  */
-
 void free_grid(int **grid, int height)
 {
-	height--;
+  int i;
 
-	while (height >= 0)
-	{
-		free(*(grid + height));
-		height--;
-	}
-	free(grid);
+  for (i = 0; i < height; i++)
+  {
+    free(grid[i]);
+  }
+
+  free(grid);
 }

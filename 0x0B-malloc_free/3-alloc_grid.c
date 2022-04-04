@@ -1,46 +1,53 @@
+#include "holberton.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 /**
- * alloc_grid - prints a grid of integers
- * @width: width of the grid
- * @height: height of the grid
+ * alloc_grid - ...
+ * @width: ...
+ * @height: ...
  *
- * Return: pointer..
+ * Return: ...
  */
 int **alloc_grid(int width, int height)
 {
-int **s, r, c;
+	int i, j, k, l;
+	int **a;
 
 	if (width <= 0 || height <= 0)
+		return (NULL);
+
+	a = malloc(sizeof(int *) * height);
+
+	if (a == NULL)
 	{
+		free(a);
 		return (NULL);
 	}
 
-	s = malloc(sizeof(int *) * height);
-	if (s == NULL)
+	for (i = 0; i < height; i++)
 	{
-		return (NULL);
-	}
+		a[i] = malloc(sizeof(int) * width);
 
-	for (r = 0; r < height; r++)
-	{
-		s[r] = malloc(sizeof(int) * width);
-
-		if (s[r] == NULL)
+		if (a[i] == NULL)
 		{
-			for (; r >= 0; r--)
+			for (j = i; j >= 0; j--)
 			{
-				free(s[r]);
+				free(a[j]);
 			}
-			free(s);
+
+			free(a);
 			return (NULL);
 		}
+	}
 
-		for (c = 0; c <= width; c++)
+	for (k = 0; k < height; k++)
+	{
+		for (l = 0; l < width; l++)
 		{
-			s[r][c] = 0;
+			a[k][l] = 0;
 		}
 	}
-	return (s);
 
+	return (a);
 }
