@@ -1,3 +1,5 @@
+#include "holberton.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -67,7 +69,7 @@ char **strtow(char *str)
 			return (NULL);
 		}
 
-		for (k = 0; k < (len - 1);  k++)
+		for (k = 0; k < (len - 1); k++)
 		{
 			*(col + k) = *(str++);
 		}
@@ -82,5 +84,3 @@ char **strtow(char *str)
 	*(f + j) = NULL;
 	return (f);
 } /*yes*/
-
-
