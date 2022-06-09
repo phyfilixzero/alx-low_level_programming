@@ -1,55 +1,88 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "lists.h"
+
 /**
- * insert_dnodeint_at_index - function to insert node at given index
- * @h: double pointer type to head of list
- * @idx: index at which node will be added
- * @n: int type for data to be added
- * Return: node if successful, NULL if failed
- */
+  * insert_dnodeint_at_index - Inserts a new node at a given position
+  * @h: The head of the doubly linked list
+  * @idx: The index in which insert the new node
+  * @n: The number to insert in the new node
+  *
+  * Return: The address of the new node, or NULL if it failed
+  */
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
-dlistint_t *node = malloc(sizeof(dlistint_t));
-dlistint_t *temp;
-unsigned int count = 0;
-if (node == NULL)
-return (NULL);
-node->n = n;
-node->prev = NULL;
-node->next = NULL;
-if (*h == NULL)
-{
-*h = node;
-node->next = NULL;
-return (node);
+	dlistint_t *current = NULL, *new_node = NULL;
+	unsigned int iter_times = 0, length = 0;
+
+	if (h == NULL)
+		return (NULL);
+
+	if (*h == NULL && idx == 0)
+		return (add_dnodeint(h, n));
+
+	length = dlistint_len(*h);
+	if (idx == 0)
+		return (add_dnodeint(h, n));
+	else if (length == idx)
+		return (add_dnodeint_end(h, n));
+
+	current = *h;
+	while (current != NULL)
+	{
+		if (iter_times == idx)
+		{
+			new_node = create_node(n, current, current->prev);
+			current->prev = new_node;
+			current = new_node;
+			current->prev->next = new_node;
+			return (new_node);
+		}
+
+		current = current->next;
+		++iter_times;
+	}
+
+	return (current);
 }
-temp = *h;
-if (idx == 0)
+
+/**
+  * dlistint_len - Counts the number of elements in a doubly linked list
+  * @h: The double linked list to count
+  *
+  * Return: Number of elements in the doubly linked list
+  */
+size_t dlistint_len(const dlistint_t *h)
 {
-node->next = temp;
-temp->prev = node;
-*h = node;
-return (node);
+	int lenght = 0;
+
+	while (h != NULL)
+	{
+		++lenght;
+		h = h->next;
+	}
+
+	return (lenght);
 }
-while (count != (idx - 1))
+
+/**
+  * create_node - Create a new node with values
+  * @n: The number of the new node
+  * @next: The next node of the new node
+  * @prev: The previous node of the new node
+  *
+  * Return: The address of the new node created
+  */
+dlistint_t *create_node(unsigned int n, void *next, void *prev)
 {
-temp = temp->next;
-count++;
-if (temp == NULL)
-{
-free(node);
-return (NULL);
-}
-}
-node->next = temp->next;
-node->prev = temp;
-if (temp->next == NULL)
-{
-temp->next = node;
-}
-else
-{
-temp->next->prev = node;
-temp->next = node;
-}
-return (node);
+	dlistint_t *new_node = NULL;
+
+	new_node = malloc(sizeof(dlistint_t));
+	if (new_node == NULL)
+		return (NULL);
+
+	new_node->n = n;
+	new_node->next = next;
+	new_node->prev = prev;
+	return (new_node);
 }
